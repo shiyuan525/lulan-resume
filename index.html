@@ -313,6 +313,10 @@
       <p class="footer-name">卢岚 · 机器制造 / 技术服务工程师</p>
       <p class="footer-contact">邮箱：1591293446@qq.com</p>
       <p class="footer-note">个人求职简历 · 感谢阅读</p>
+      <p class="footer-counter">
+        <span id="busuanzi_container_site_pv" style="display:none">本站已被访问 <span id="busuanzi_value_site_pv"></span> 次</span>
+        <span id="busuanzi_container_site_uv" style="display:none"> · 访客 <span id="busuanzi_value_site_uv"></span> 人</span>
+      </p>
     </div>
   </footer>
 
@@ -326,6 +330,37 @@
     <p class="lightbox-count" id="lightbox-count"></p>
   </div>
 
+  <!-- 访客登记 -->
+  <div class="register" id="register" hidden>
+    <div class="register-card">
+      <h2 class="register-title">访客登记</h2>
+      <p class="register-sub">请先登记信息，再查看简历内容</p>
+      <form id="register-form" novalidate>
+        <label>
+          <span>公司名称 <em>*</em></span>
+          <input type="text" name="公司名称" required placeholder="例如：XX科技有限公司" />
+        </label>
+        <label>
+          <span>姓名 <em>*</em></span>
+          <input type="text" name="姓名" required placeholder="您的称呼" />
+        </label>
+        <label>
+          <span>职位</span>
+          <input type="text" name="职位" placeholder="例如：HR / 技术主管" />
+        </label>
+        <label>
+          <span>联系电话</span>
+          <input type="tel" name="联系电话" placeholder="选填" />
+        </label>
+        <button type="submit" class="register-submit" id="register-submit">提交并查看简历</button>
+        <p class="register-error" id="register-error" hidden>请填写公司名称和姓名</p>
+      </form>
+      <p class="register-skip" id="register-skip" hidden><a href="#" id="register-skip-link">跳过，直接查看简历 →</a></p>
+      <p class="register-note">您的信息仅用于求职沟通，不会公开。</p>
+    </div>
+  </div>
+
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <script src="assets/script.js"></script>
 </body>
 </html>

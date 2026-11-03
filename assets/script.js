@@ -151,3 +151,81 @@ document.addEventListener("keydown", function (e) {
     });
   });
 })();
+
+/* ---- 访客登记 ---- */
+(function initRegister() {
+  var modal = document.getElementById("register");
+  var form = document.getElementById("register-form");
+  var submitBtn = document.getElementById("register-submit");
+  var errorEl = document.getElementById("register-error");
+  var skipEl = document.getElementById("register-skip");
+  var skipLink = document.getElementById("register-skip-link");
+
+  if (!modal || !form) return;
+
+  function dismissAndRemember() {
+    document.body.style.overflow = "";
+    localStorage.setItem("lulan_resume_registered", "1");
+    modal.hidden = true;
+  }
+
+  // 本浏览器已登记/跳过过的，不再弹窗
+  if (localStorage.getItem("lulan_resume_registered")) {
+    modal.hidden = true;
+    return;
+  }
+
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var fd = new FormData(form);
+    var company = (fd.get("公司名称") || "").trim();
+    var name = (fd.get("姓名") || "").trim();
+
+    if (!company || !name) {
+      errorEl.textContent = "请填写公司名称和姓名";
+      errorEl.hidden = false;
+      return;
+    }
+    errorEl.hidden = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "提交中…";
+
+    var payload = {
+      _subject: "新访客登记 · 卢岚简历网站",
+      _template: "table",
+      "公司名称": company,
+      "姓名": name,
+      "职位": (fd.get("职位") || "").trim(),
+      "联系电话": (fd.get("联系电话") || "").trim()
+    };
+
+    fetch("https://formsubmit.co/ajax/1591293446@qq.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.success === "false") {
+          throw new Error("rejected");
+        }
+        form.innerHTML = '<p class="register-thanks">感谢登记，正在进入简历…</p>';
+        setTimeout(dismissAndRemember, 700);
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "提交并查看简历";
+        errorEl.textContent = "提交失败，请稍后重试";
+        errorEl.hidden = false;
+        skipEl.hidden = false;
+      });
+  });
+
+  skipLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    dismissAndRemember();
+  });
+})();
